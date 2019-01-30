@@ -32,4 +32,18 @@ class Cell
     end
   end
 
+  def render(display_option = false)
+    if @ship && @ship.sunk?
+      "X"
+    elsif !empty? && fired_upon?
+      "H"
+    elsif empty? && fired_upon?
+      "M"
+    elsif display_option && !empty?
+      "S"
+    else
+      "."
+    end
+  end
+
 end

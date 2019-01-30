@@ -30,8 +30,6 @@ class Board
     if ship_arg.length != coordinates_arg.length
       false
     end
-
-    
   end
 
 end

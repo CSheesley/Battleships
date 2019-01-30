@@ -73,4 +73,43 @@ class CellTest < Minitest::Test
     assert_equal 2, cell.ship.health
   end
 
+  def test_to_see_if_cells_blank_cells_are_properly_rendered
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+
+    assert_equal ".", cell.render
+  end
+
+  def test_to_see_if_user_can_see_own_ship_placement
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+
+    assert_equal "S", cell.render(true)
+  end
+
+  def test_to_see_that_hits_and_misses_render_correctly
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.fire_upon
+
+    assert_equal "M", cell.render
+
+    cell.place_ship(cruiser)
+
+    assert_equal "H", cell.render
+  end
+
+  def test_to_make_sure_a_sunk_ship_renders_with_an_x
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    cell.fire_upon
+    cell.fire_upon
+    cell.fire_upon
+    #find better way to default value of cruiser to sunk = true
+    assert_equal "X", cell.render
+  end
+
+
 end

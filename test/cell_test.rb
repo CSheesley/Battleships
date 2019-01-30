@@ -105,9 +105,9 @@ class CellTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
     cell.fire_upon
-    cell.fire_upon
-    cell.fire_upon
-    #find better way to default value of cruiser to sunk = true
+    cruiser.hit
+    cruiser.hit
+  
     assert_equal "X", cell.render
   end
 

@@ -26,5 +26,12 @@ class Board
     @cells.has_key?(coordinate_arg)
   end
 
+  def valid_placement?(ship_arg, coordinates_arg)
+    if ship_arg.length != coordinates_arg.length
+      false
+    end
+
+    
+  end
 
 end

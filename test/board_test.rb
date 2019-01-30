@@ -29,10 +29,27 @@ class BoardTest < Minitest::Test
     board = Board.new
 
     assert board.valid_coordinate?("A1")
-    assert board.valid_coordinate?("D2")ls
-    
+    assert board.valid_coordinate?("D2")
+
     refute board.valid_coordinate?("G50")
     refute board.valid_coordinate?("A5")
   end
 
+  def test_cells_same_as_ship_length
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    refute board.valid_placement?(cruiser,["A1","A2"])
+    refute board.valid_placement?(submarine,["A1","A2","A3"])
+    assert board.valid_placement?(cruiser,["C1","C2"])
+    assert board.valid_placement?(submarine,["C1","C2","C3"])
+  end
+
+  def test_are_cooridantes_consequtive
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+  end
 end

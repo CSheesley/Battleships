@@ -22,26 +22,44 @@ class Board
     }
   end
 
-  def valid_coordinate?(coordinate_arg)
-    @cells.has_key?(coordinate_arg)
+  def valid_placement?(ship, coordinates)
+    each_coordinate_valid?(ship, coordinates) && ship_length_equals_coord_length?(ship, coordinates) && consecutive_coordinates?(ship, coordinates)
   end
 
-  def valid_placement?(ship_arg, coordinates_arg)
-    ship_length_equals_coord_length(ship_arg, coordinates_arg)
-
-# if on same row (letter) - check that they are each_cons (number value) = ship length
-# are the letters all the same
-# if in same column (number) - check that they are ordinal values (alphabet order) = ship length
-# is the column the same
+  def valid_coordinate?(coordinate)
+    @cells.has_key?(coordinate)
   end
 
-  def ship_length_equals_coord_length(ship_arg, coordinates_arg)
-    if ship_arg.length != coordinates_arg.length
-      false
-    else
-      true
+  def each_coordinate_valid?(ship, coordinates)
+    coordinates.all? do |coordinate|
+      valid_coordinate?(coordinate)
     end
   end
 
+  def ship_length_equals_coord_length?(ship, coordinates) #more readable - previously if/else w/ !
+    ship.length == coordinates.length
+  end
+
+  def consecutive_coordinates?(ship, coordinates)
+    rows = []
+    columns =[]
+    coordinates.each do |coordinate|
+      rows << coordinate[0]
+      columns << coordinate[1]
+    end
+
+    valid_columns = []
+    ("1".."4").to_a.each_cons(ship.length) { |columns| valid_columns << columns }
+    valid_rows =[]
+    ("A".."D").to_a.each_cons(ship.length) { |rows| valid_rows << rows}
+
+    if rows.uniq.length == 1 && valid_columns.include?(columns)
+      true
+    elsif columns.uniq.length == 1 && valid_rows.include?(rows)
+      true
+    else
+      false
+    end
+  end
 
 end

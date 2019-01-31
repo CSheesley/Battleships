@@ -6,9 +6,6 @@ require 'pry'
 
 class CellTest < Minitest::Test
 
-  def setup
-  end
-
   def test_that_it_exist
     cell = Cell.new("B4")
 
@@ -55,6 +52,15 @@ class CellTest < Minitest::Test
     cell.place_ship(cruiser)
 
     refute cell.fired_upon?
+  end
+
+  def test_to_check_cell_is_fired_upon
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    cell.fire_upon
+
+    assert cell.fired_upon?
   end
 
   def test_to_check_result_of_firing_upon_an_empty_cell
@@ -107,9 +113,8 @@ class CellTest < Minitest::Test
     cell.fire_upon
     cruiser.hit
     cruiser.hit
-  
+
     assert_equal "X", cell.render
   end
-
 
 end

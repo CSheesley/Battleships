@@ -1,20 +1,18 @@
 class Cell
-  attr_reader :coordinate, :ship, :empty, :fired_upon
+  attr_reader :coordinate, :ship, :fired_upon
 
-  def initialize(coordinate_arg)
-    @coordinate = coordinate_arg
-    @ship = ship
-    @empty = true
+  def initialize(coordinate)
+    @coordinate = coordinate
+    @ship = nil
     @fired_upon = false
   end
 
   def empty?
-    @empty
+    @ship == nil
   end
 
-  def place_ship(ship_arg)
-    @empty = false
-    @ship = ship_arg
+  def place_ship(ship)
+    @ship = ship
   end
 
   def fired_upon?
@@ -23,7 +21,6 @@ class Cell
 
   def fire_upon
     @fired_upon = true
-
     if empty?
       "Miss" #may remove
     else
@@ -33,7 +30,7 @@ class Cell
   end
 
   def render(display_option = false)
-    if @ship && @ship.sunk?
+    if !empty? && @ship.sunk?
       "X"
     elsif !empty? && fired_upon?
       "H"

@@ -53,7 +53,6 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-    binding.pry
   end
 
 end

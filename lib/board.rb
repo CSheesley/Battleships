@@ -27,9 +27,21 @@ class Board
   end
 
   def valid_placement?(ship_arg, coordinates_arg)
+    ship_length_equals_coord_length(ship_arg, coordinates_arg)
+
+# if on same row (letter) - check that they are each_cons (number value) = ship length
+# are the letters all the same
+# if in same column (number) - check that they are ordinal values (alphabet order) = ship length
+# is the column the same
+  end
+
+  def ship_length_equals_coord_length(ship_arg, coordinates_arg)
     if ship_arg.length != coordinates_arg.length
       false
+    else
+      true
     end
   end
+
 
 end

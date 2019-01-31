@@ -23,7 +23,11 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    each_coordinate_valid?(ship, coordinates) && ship_length_equals_coord_length?(ship, coordinates) && consecutive_coordinates?(ship, coordinates)
+    each_coordinate_valid?(ship, coordinates) &&
+    ship_length_equals_coord_length?(ship, coordinates) &&
+    consecutive_coordinates?(ship, coordinates) &&
+    no_overlap(ship, coordinates)
+
   end
 
   def valid_coordinate?(coordinate)
@@ -60,6 +64,17 @@ class Board
     else
       false
     end
+  end
+
+
+  def no_overlap(ship, coordinates)
+    coordinates.none? do |coord|
+      overlap?(coord)
+    end
+  end
+
+  def overlap?(coordinate)
+    @cells[coordinate].ship != nil
   end
 
   def place(ship, coordinates)

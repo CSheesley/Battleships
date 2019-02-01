@@ -88,6 +88,15 @@ class BoardTest < Minitest::Test
     assert board.cells["A1"].ship == board.cells["A2"].ship
   end
 
+  def test_to_make_sure_coordinates_are_consecutive
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    assert board.consecutive_coordinates?(cruiser, ["A1", "A2", "A3"])
+    refute board.consecutive_coordinates?(submarine, ["A1", "A3"])
+  end
+
   def test_to_make_sure_that_ships_cannot_overlap
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
@@ -96,6 +105,14 @@ class BoardTest < Minitest::Test
 
     refute board.valid_placement?(submarine, ["A1", "B1"])
     assert board.valid_placement?(submarine, ["B1", "B2"])
+  end
+
+  def test_that_the_board_can_render_clean_at_beginning_of_game
+
+  end
+
+  def test_that_board_can_render_accurately_during_game_play
+
   end
 
 end

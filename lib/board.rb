@@ -27,7 +27,6 @@ class Board
     ship_length_equals_coord_length?(ship, coordinates) &&
     consecutive_coordinates?(ship, coordinates) &&
     no_overlap(ship, coordinates)
-
   end
 
   def valid_coordinate?(coordinate)
@@ -66,7 +65,6 @@ class Board
     end
   end
 
-
   def no_overlap(ship, coordinates)
     coordinates.none? do |coord|
       overlap?(coord)
@@ -85,6 +83,34 @@ class Board
 
   def place_on_cell(ship, cell)
     @cells[cell].place_ship(ship)
+  end
+
+  def render(display_option = false)
+    puts "  1 2 3 4 "
+    puts "A " + render_each_cell("A1") + render_each_cell("A2") + render_each_cell("A3") + render_each_cell("A4")
+    puts "B " + render_each_cell("B1") + render_each_cell("B2") + render_each_cell("B3") + render_each_cell("B4")
+    puts "C " + render_each_cell("C1") + render_each_cell("C2") + render_each_cell("C3") + render_each_cell("C4")
+    puts "D " + render_each_cell("D1") + render_each_cell("D2") + render_each_cell("D3") + render_each_cell("D4")
+  end
+  # 
+  # def row_a
+  #   row_a = ["A1","A2","A3","A4"]
+  #     row_a.each do |coord|
+  #       render_each_cell(coord)
+  #     end
+  # end
+
+  # def row_a
+  #   row_a = ["A1","A2","A3","A4"]
+  #   row_a_new = []
+  #   row_a.map do |coord|
+  #     row_a_new << render_each_cell(coord)
+  #   end
+  #   return "A #{row_a_new.flatten}"
+  # end
+
+  def render_each_cell(cell)
+    @cells[cell].render
   end
 
 end

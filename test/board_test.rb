@@ -108,11 +108,49 @@ class BoardTest < Minitest::Test
   end
 
   def test_that_the_board_can_render_clean_at_beginning_of_game
+    board = Board.new
+    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
 
+    assert_equal expected, board.render
   end
 
-  def test_that_board_can_render_accurately_during_game_play
+  def test_that_board_can_render_with_a_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
 
+    assert_equal expected, board.render(true)
+  end
+
+  def test_that_board_can_render_with_a_sunken_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.cells["A1"].fire_upon
+    board.cells["A2"].fire_upon
+    board.cells["A3"].fire_upon
+    # binding.pry
+    expected = "  1 2 3 4 \nA X X X . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, board.render
+    assert_equal expected, board.render(true)
+  end
+
+  def test_that_board_can_render_with_hits_misses_and_a_sunken_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.place(submarine, ["C2","D2"])
+    board.cells["A1"].fire_upon
+    board.cells["A4"].fire_upon
+    board.cells["C2"].fire_upon
+    board.cells["D2"].fire_upon
+
+    expected = "  1 2 3 4 \nA H . . M \nB . . . . \nC . X . . \nD . X . . \n"
+
+    assert_equal expected, board.render
   end
 
 end

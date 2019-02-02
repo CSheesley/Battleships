@@ -8,8 +8,5 @@ class Runner
     gets.chomp "p"
     if play
     end
-
-
-
   end
 end

@@ -20,7 +20,5 @@ class RunnerTest < MiniTest::Test
     assert_equal "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit.", runner.welcome_screen
   end
 
-  def test_ 
-
-  end
+  
 end

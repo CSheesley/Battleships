@@ -88,6 +88,15 @@ class BoardTest < Minitest::Test
     assert board.cells["A1"].ship == board.cells["A2"].ship
   end
 
+  def test_to_make_sure_coordinates_are_consecutive
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    assert board.consecutive_coordinates?(cruiser, ["A1", "A2", "A3"])
+    refute board.consecutive_coordinates?(submarine, ["A1", "A3"])
+  end
+
   def test_to_make_sure_that_ships_cannot_overlap
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
@@ -96,6 +105,52 @@ class BoardTest < Minitest::Test
 
     refute board.valid_placement?(submarine, ["A1", "B1"])
     assert board.valid_placement?(submarine, ["B1", "B2"])
+  end
+
+  def test_that_the_board_can_render_clean_at_beginning_of_game
+    board = Board.new
+    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, board.render
+  end
+
+  def test_that_board_can_render_with_a_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, board.render(true)
+  end
+
+  def test_that_board_can_render_with_a_sunken_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.cells["A1"].fire_upon
+    board.cells["A2"].fire_upon
+    board.cells["A3"].fire_upon
+    # binding.pry
+    expected = "  1 2 3 4 \nA X X X . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, board.render
+    assert_equal expected, board.render(true)
+  end
+
+  def test_that_board_can_render_with_hits_misses_and_a_sunken_ship
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.place(submarine, ["C2","D2"])
+    board.cells["A1"].fire_upon
+    board.cells["A4"].fire_upon
+    board.cells["C2"].fire_upon
+    board.cells["D2"].fire_upon
+
+    expected = "  1 2 3 4 \nA H . . M \nB . . . . \nC . X . . \nD . X . . \n"
+
+    assert_equal expected, board.render
   end
 
 end

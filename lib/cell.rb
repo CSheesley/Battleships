@@ -31,15 +31,15 @@ class Cell
 
   def render(display_option = false)
     if !empty? && @ship.sunk?
-      "X"
+      "X "
     elsif !empty? && fired_upon?
-      "H"
+      "H "
     elsif empty? && fired_upon?
-      "M"
+      "M "
     elsif display_option && !empty?
-      "S"
+      "S "
     else
-      "."
+      ". "
     end
   end
 

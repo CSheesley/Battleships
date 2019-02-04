@@ -1,0 +1,81 @@
+Main Menu shows
+
+SETUP
+  - Player select p or q
+  if q - "Have a good day"
+  if p - game = Game.new
+
+  Game.new
+    - computer = Computer.new
+      - create board for computer
+      - place for ships for computer
+
+    - player = Player.new
+      - creates a player board
+      - creates two ships for players
+
+    - "Msg - I placed my ships - you place yours - ships lengths"
+    - Render empty player board - player.board.render(true)
+
+    - cruiser_coordinates = gets.chomp for Cruiser "message" #=>string
+    * needs to be converted to an array of coordiantes. Use ! to convert
+
+    - valid_coordinates?(cruiser_coordinates)
+      if true
+        player.board.place_ship(@cruiser, cruiser_coordinates)
+      else
+      p "Invalid coordinates - must be consecutive and not diagonal"
+        cruiser_coordinates = gets.chomp for Cruiser "message" #=>string
+        * needs to be converted to an array of coordiantes. Use ! to convert
+          if true
+            player.board.place_ship(@cruiser, cruiser_coordinates)
+          else
+            "End game msg"
+    ^ loop until valid option
+
+TURN (one big loop)
+
+    - Display both boards (computer on top)
+      p === Computer Board =====
+      p computer.board.render
+      p ==== Player Board ====
+      p player.board.render(true)
+    ^ consider seperate method for board rendering (*render both boards)
+
+    - player prompted to take a shot "messge"
+      @shot = gets.chomp
+      player.board.valid_coordinate(shot)
+        if true
+          computer.board.fire_upon(shot)
+        else
+          "invalid coordiante, try again"
+      ^ loop until valid option
+
+      computer take shot
+        *build shot selection method
+        player.board.fire_upon.(shot_selection.pop)
+
+    #player_feedback
+    - display results of both shots
+      if computer.board.cell.render[@shot] = "X "
+        "you sunk my #{computer.board.cell.ship}!"
+      elsif computer.board.cell.render[@shot] = "H "
+        "your shot on #{@shot} was a hit."
+      elsif computer.board.cell.render[@shot] = "M "
+        "your shot on #{@shot} was a miss"
+      end
+
+    #computer_feedback (same but reversed)
+    - display results of both shots
+      if player.board.cell.render[@shot_selection] = "X "
+        "I sank your #{player.board.cell.ship}!"
+      elsif player.board.cell.render[@shot_selection] = "H "
+        "My shot on #{@shot_selection} was a hit."
+      elsif player.board.cell.render[@shot_selection] = "M "
+        "My shot on #{@shot_selection} was a miss"
+      end
+
+
+    coordinates already fired upon
+
+    end of game message

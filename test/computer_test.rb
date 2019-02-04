@@ -27,7 +27,7 @@ class RunnerTest < MiniTest::Test
     assert computer.submarine
   end
 
-  def test_that_computer_can_place_ships #need to have assertions written 
+  def test_that_computer_can_place_ships #how to test for placement when random?
     skip
     computer = Computer.new
     computer.place_ships
@@ -36,9 +36,12 @@ class RunnerTest < MiniTest::Test
     assert_equal expected, computer.place_ships
   end
 
-  def test_that_computer_board_can_be_rendered #need to have assertions written
-    skip
+  def test_that_computer_board_can_be_rendered
+    computer = Computer.new
+    computer.place_ships
 
+    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    assert_equal expected, computer.board.render
   end
 
 

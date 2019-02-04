@@ -47,7 +47,7 @@ class BoardTest < Minitest::Test
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
-    # binding.pry
+  
     refute board.ship_length_equals_coord_length?(cruiser,["A1","A2"])
     refute board.ship_length_equals_coord_length?(submarine,["A1","A2","A3"])
 
@@ -130,7 +130,7 @@ class BoardTest < Minitest::Test
     board.cells["A1"].fire_upon
     board.cells["A2"].fire_upon
     board.cells["A3"].fire_upon
-    # binding.pry
+
     expected = "  1 2 3 4 \nA X X X . \nB . . . . \nC . . . . \nD . . . . \n"
 
     assert_equal expected, board.render

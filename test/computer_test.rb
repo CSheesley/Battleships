@@ -27,13 +27,11 @@ class RunnerTest < MiniTest::Test
     assert computer.submarine
   end
 
-  def test_that_computer_can_place_ships #how to test for placement when random?
-    skip
+  def test_that_computer_can_place_ships
     computer = Computer.new
     computer.place_ships
 
-    # expected = "  1 2 3 4 \nA H . . M \nB . . . . \nC . X . . \nD . X . . \n"
-    assert_equal expected, computer.place_ships
+    refute computer.board.cells.all? { |coordinate, cell| cell.ship == nil }
   end
 
   def test_that_computer_board_can_be_rendered
@@ -44,11 +42,17 @@ class RunnerTest < MiniTest::Test
     assert_equal expected, computer.board.render
   end
 
+  def test_it_can_make_a_shot_selection
+    computer = Computer.new
 
+    assert_equal 16, computer.shot_options.count
+  end
 
+  def test_it_runs_out_of_shot_options_after_16_shots
+    computer = Computer.new
+    16.times { computer.shot_selection }
 
-
-
-
+    assert_equal 0, computer.shot_options.count
+  end
 
 end

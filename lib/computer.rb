@@ -1,10 +1,11 @@
 class Computer
-  attr_reader :board, :cruiser, :submarine
+  attr_reader :board, :cruiser, :submarine, :shot_options
 
   def initialize
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
+    @shot_options = all_coords
   end
 
   def place_ships
@@ -34,6 +35,10 @@ class Computer
     return @coordinates
   end
 
-
+  def shot_selection
+    @shot_options.shuffle!
+    shot = @shot_options.pop
+    return shot
+  end
 
 end

@@ -1,5 +1,5 @@
 class Computer
-  attr_reader :board, :cruiser, :submarine
+  attr_reader :board, :cruiser, :submarine, :shot_options
 
   def initialize
     @board = Board.new
@@ -37,6 +37,14 @@ class Computer
     @shot_options.shuffle!
     shot = @shot_options.pop
     return shot
+  end
+
+  def all_ships_sunk?
+    if @cruiser.sunk? && @submarine.sunk?
+      true
+    else
+      false
+    end
   end
 
 end

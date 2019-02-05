@@ -7,12 +7,27 @@ class Player
     @submarine = Ship.new("Submarine", 2)
   end
 
-#is this even needed?
   def place_ship(ship, coordinates)
     if @board.valid_placement?(ship, coordinates) == true
       @board.place(ship, coordinates)
     else
-      return "Those are invalid coordiantes. Please try again:"
+      return "Those are invalid coordiantes. Please try again:" #probably not even needed
+    end
+  end
+
+  def all_ships_sunk?
+    if @cruiser.sunk? && @submarine.sunk?
+      true
+    else
+      false
+    end
+  end
+
+  def valid_shot?(computer_board_and_cells, player_shot)
+    if computer_board_and_cell.include?(player_shot) && !computer_board_and_cell[player_shot].fired_upon?
+      true
+    else
+      false
     end
   end
 

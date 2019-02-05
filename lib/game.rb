@@ -1,7 +1,6 @@
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
-require './lib/main_menu'
 require './lib/computer'
 require './lib/player'
 require 'pry'
@@ -39,7 +38,7 @@ class Game
       print "> "
       coords = gets.chomp.upcase.split
     end
-    @player.board.place(@player.submarine, coords)
+    @player.place_ship(@player.submarine, coords)
     puts @player.board.render(true)
 
     puts "Select coordinates for Cruiser. (3 coordiantes)"
@@ -50,26 +49,35 @@ class Game
       print "> "
       coords = gets.chomp.upcase.split
     end
-    @player.board.place(@player.cruiser, coords)
+    @player.place_ship(@player.cruiser, coords)
     puts @player.board.render(true)
     puts "Ships have been placed.\nLets begin!"
   end
 
   def turn
 
-    puts "==========Computer Board=========="
-    puts @computer.board.render
-    puts "==========Player Board=========="
-    puts @player.board.render(true)
-    puts "Where would you like to fire upon?"
-    print "> "
-    gets.chomp
+    while
+      puts "==========Computer Board=========="
+      puts @computer.board.render
+      puts "==========Player Board=========="
+      puts @player.board.render(true)
 
-  #     puts "Where would you like to fire upon?"
-  #     gets.chomp
-  #     if @cell.render == 2
-  #     end
-  #   end
+      while !player.valid_shot?
+        puts "Where would you like to fire upon?"
+        print "> "
+        player_shot = gets.chomp
+      end
+
+    end
+
+
+
+
+    #     puts "Where would you like to fire upon?"
+    #     gets.chomp
+    #     if @cell.render == 2
+    #     end
+    #   end
   end
   # puts "Select valid cooridnates for Cruiser"
   # gets.chomp # input should look like A1 A2 A3

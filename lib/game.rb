@@ -55,18 +55,28 @@ class Game
   end
 
   def turn
+      #
+      # @computer.all_sunk?
+      # @player.all_sunk?
 
-    while
+    while !@computer.all_ships_sunk? || !@player.all_ships_sunk?
       puts "==========Computer Board=========="
       puts @computer.board.render
       puts "==========Player Board=========="
       puts @player.board.render(true)
 
-      while !player.valid_shot?
-        puts "Where would you like to fire upon?"
+      puts "Where would you like to fire upon?"
+      print "> "
+      player_shot = gets.chomp.upcase
+
+      while !@player.valid_shot?(@computer.board.cells, player_shot)
+        puts "#{player_shot} is invlaid, or has already been fired upon:"
         print "> "
-        player_shot = gets.chomp
+        player_shot = gets.chomp.upcase
       end
+        @computer.board.cells[player_shot].fire_upon
+
+        @player.board.cells[@computer.shot_selection].fire_upon
 
     end
 

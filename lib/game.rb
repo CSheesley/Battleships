@@ -15,7 +15,28 @@ class Game
   def start
     welcome_screen
     setup
-    turn
+    turn # shoot & feedback loop until ships sunk
+    #end_of_game
+  end
+
+  def player_feedback(player_shot)
+    if @computer.board.cells[player_shot].render == "X "
+      "You sunk my #{@computer.board.cells[player_shot].ship.name}!"
+    elsif @computer.board.cells[player_shot].render == "H "
+      "Your shot on #{player_shot} was a hit."
+    elsif @computer.board.cells[player_shot].render == "M "
+      "Your shot on #{player_shot} was a miss"
+    end
+  end
+
+  def computer_feedback(computer_shot)
+    if @player.board.cells[computer_shot].render == "X "
+      "I sunk your #{@player.board.cells[computer_shot].ship.name}!\n"
+    elsif @player.board.cells[computer_shot].render == "H "
+      "My shot on #{computer_shot} was a hit.\n"
+    elsif @player.board.cells[computer_shot].render == "M "
+      "My shot on #{computer_shot} was a miss.\n"
+    end
   end
 
   def welcome_screen
@@ -65,18 +86,24 @@ class Game
       puts "==========Player Board=========="
       puts @player.board.render(true)
 
+
       puts "Where would you like to fire upon?"
       print "> "
+      print ""
       player_shot = gets.chomp.upcase
+      computer_shot = @computer.computer_shot
 
       while !@player.valid_shot?(@computer.board.cells, player_shot)
         puts "#{player_shot} is invlaid, or has already been fired upon:"
         print "> "
         player_shot = gets.chomp.upcase
       end
-        @computer.board.cells[player_shot].fire_upon
 
-        @player.board.cells[@computer.shot_selection].fire_upon
+        @computer.board.cells[player_shot].fire_upon
+        @player.board.cells[computer_shot].fire_upon
+
+        puts player_feedback(player_shot)
+        puts computer_feedback(computer_shot)
 
     end
 

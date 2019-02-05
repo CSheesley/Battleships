@@ -23,4 +23,12 @@ class Player
     end
   end
 
+  def valid_shot?(computer_board_and_cells, player_shot)
+    if computer_board_and_cell.include?(player_shot) && !computer_board_and_cell[player_shot].fired_upon?
+      true
+    else
+      false
+    end
+  end
+
 end

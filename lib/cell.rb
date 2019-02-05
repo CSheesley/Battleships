@@ -22,10 +22,8 @@ class Cell
   def fire_upon
     @fired_upon = true
     if empty?
-      "Miss" #may remove
     else
       @ship.hit
-      "Hit!" #may remove
     end
   end
 

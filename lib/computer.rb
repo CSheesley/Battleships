@@ -33,7 +33,7 @@ class Computer
     return @coordinates
   end
 
-  def shot_selection
+  def computer_shot
     @shot_options.shuffle!
     shot = @shot_options.pop
     return shot

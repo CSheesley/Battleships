@@ -29,16 +29,18 @@ class PlayerTest < Minitest::Test
     assert_instance_of Ship, player.submarine
   end
 
+  #reconfigure test (if even needed)
   def test_it_can_place_ships
     player = Player.new
-    player.place_ship(player.cruiser, ["A1", "A2", "A3"])
+    player.place(player.cruiser, ["A1", "A2", "A3"])
     player.place_ship(player.submarine, ["C4", "D4"])
 
     expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . S \nD . . . S \n"
 
     assert_equal expected, player.board.render(true)
   end
-
+  
+  #reconfigure test (if even needed)
   def test_player_cannot_place_ships_on_invalid_cells
     player = Player.new
 

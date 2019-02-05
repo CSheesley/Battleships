@@ -1,5 +1,5 @@
 class Computer
-  attr_reader :board, :cruiser, :submarine, :shot_options
+  attr_reader :board, :cruiser, :submarine
 
   def initialize
     @board = Board.new
@@ -26,12 +26,10 @@ class Computer
   end
 
   def generated_coords(ship)
-    loop do
+    @coordinates = random_coords(ship.length)
+    while !@board.valid_placement?(ship, @coordinates)
       @coordinates = random_coords(ship.length)
-      if @board.valid_placement?(ship, @coordinates )
-        break
       end
-    end
     return @coordinates
   end
 

@@ -14,17 +14,17 @@ class RunnerTest < MiniTest::Test
     assert_instance_of Computer, computer
   end
 
-  def test_that_it_has_a_board
+  def test_that_it_has_a_board_object
     computer = Computer.new
 
-    assert computer.board
+    assert_instance_of Board, computer.board
   end
 
-  def test_it_starts_with_a_cruiser_and_a_submarine
+  def test_it_has_a_both_a_cruiser_and_a_submarine_ship_object
     computer = Computer.new
 
-    assert computer.cruiser
-    assert computer.submarine
+    assert_instance_of Ship, computer.cruiser
+    assert_instance_of Ship, computer.submarine
   end
 
   def test_that_computer_can_place_ships

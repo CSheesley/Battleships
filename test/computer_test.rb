@@ -50,7 +50,7 @@ class RunnerTest < MiniTest::Test
 
   def test_it_runs_out_of_shot_options_after_16_shots
     computer = Computer.new
-    16.times { computer.shot_selection }
+    16.times { computer.computer_shot }
 
     assert_equal 0, computer.shot_options.count
   end
@@ -60,15 +60,15 @@ class RunnerTest < MiniTest::Test
     2.times { computer.cruiser.hit }
     1.times { computer.submarine.hit }
 
-    refute computer.all_ships_sunk?
+    assert_equal false, computer.all_ships_sunk?
 
     computer.cruiser.hit
 
-    refute computer.all_ships_sunk?
+    assert_equal false, computer.all_ships_sunk?
 
     computer.submarine.hit
 
-    assert computer.all_ships_sunk?
+    assert_equal true, computer.all_ships_sunk?
   end
 
 end

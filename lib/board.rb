@@ -85,15 +85,27 @@ class Board
     @cells[cell].place_ship(ship)
   end
 
-  #need to refactor - use a case statement?
   def render(display = false)
-    header_row = "  1 2 3 4 \n"
-    row_a = "A " + render_each_cell("A1", display) + render_each_cell("A2", display) + render_each_cell("A3", display) + render_each_cell("A4", display)+"\n"
-    row_b = "B " + render_each_cell("B1", display) + render_each_cell("B2", display) + render_each_cell("B3", display) + render_each_cell("B4", display)+"\n"
-    row_c = "C " + render_each_cell("C1", display) + render_each_cell("C2", display) + render_each_cell("C3", display) + render_each_cell("C4", display)+"\n"
-    row_d = "D " + render_each_cell("D1", display) + render_each_cell("D2", display) + render_each_cell("D3", display) + render_each_cell("D4", display)+"\n"
-    return header_row + row_a + row_b + row_c + row_d
+    board = "  1 2 3 4 \n"
+    ("A".."D").each do |row|
+      board << row << " "
+      ("1".."4").each do |column|
+        board << render_each_cell("#{row}#{column}", display)
+      end
+      board << "\n"
+    end
+   board
   end
+
+  # Original verison - worst code ever seen?
+  # def render(display = false)
+  #   header_row = "  1 2 3 4 \n"
+  #   row_a = "A " + render_each_cell("A1", display) + render_each_cell("A2", display) + render_each_cell("A3", display) + render_each_cell("A4", display)+"\n"
+  #   row_b = "B " + render_each_cell("B1", display) + render_each_cell("B2", display) + render_each_cell("B3", display) + render_each_cell("B4", display)+"\n"
+  #   row_c = "C " + render_each_cell("C1", display) + render_each_cell("C2", display) + render_each_cell("C3", display) + render_each_cell("C4", display)+"\n"
+  #   row_d = "D " + render_each_cell("D1", display) + render_each_cell("D2", display) + render_each_cell("D3", display) + render_each_cell("D4", display)+"\n"
+  #   return header_row + row_a + row_b + row_c + row_d
+  # end
 
   def render_each_cell(cell, display = false)
     @cells[cell].render(display)

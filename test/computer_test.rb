@@ -31,7 +31,7 @@ class RunnerTest < MiniTest::Test
     computer = Computer.new
     computer.place_ships
 
-    refute computer.board.cells.all? { |coordinate, cell| cell.ship == nil }
+    assert_equal false, computer.board.cells.all? { |coordinate, cell| cell.ship == nil }
   end
 
   def test_that_computer_board_can_be_rendered

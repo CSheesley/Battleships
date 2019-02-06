@@ -5,7 +5,6 @@ require './lib/computer'
 require './lib/player'
 require 'pry'
 
-
 class Game
 
   def initialize
@@ -15,49 +14,34 @@ class Game
 
   def start
     welcome_screen
-    setup
-    turn
-    results
-    end_game
-  end
-
-  def player_feedback(player_shot)
-    if @computer.board.cells[player_shot].render == "X "
-      "You sunk my #{@computer.board.cells[player_shot].ship.name}!"
-    elsif @computer.board.cells[player_shot].render == "H "
-      "Your shot on #{player_shot} was a hit."
-    elsif @computer.board.cells[player_shot].render == "M "
-      "Your shot on #{player_shot} was a miss"
-    end
-  end
-
-  def computer_feedback(computer_shot)
-    if @player.board.cells[computer_shot].render == "X "
-      "I sunk your #{@player.board.cells[computer_shot].ship.name}!\n"
-    elsif @player.board.cells[computer_shot].render == "H "
-      "My shot on #{computer_shot} was a hit.\n"
-    elsif @player.board.cells[computer_shot].render == "M "
-      "My shot on #{computer_shot} was a miss.\n"
-    end
   end
 
   def welcome_screen
-    puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."
+    puts "Welcome to BATTLESHIP! \nEnter p to play. Enter q to quit."
     print "> "
-    game = gets.chomp.downcase
-    if game == "p"
-    elsif game == "q"
-      puts "See Ya!!"
+    selection = gets.chomp.downcase
+
+    while selection != "p" && selection != "q"
+      puts "Please enter a valid selection"
+      print "> "
+      selection = gets.chomp.downcase
+    end
+
+    if selection == "p"
+      setup
+      turn
+      results
+      end_game
+    elsif selection == "q"
+      puts "\nSee Ya!!"
       exit
-    else game != "p" || "q"
-      welcome_screen
     end
   end
 
   def setup
     @computer.place_ships
-    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Submarine is two units long and the Cruiser is three units long."
-
+    puts "\nI have laid out my ships on the grid.\nYou now need to lay out your two ships."
+    puts "The Submarine is two units long, and the Cruiser is three units long.\n\n"
     puts @player.board.render
     puts "Select coordinates for Submarine. (2 coordiantes)"
     print "> "
@@ -83,6 +67,7 @@ class Game
     @player.place_ship(@player.cruiser, coords)
     puts @player.board.render(true)
     puts "Ships have been placed.\nLets begin!"
+    puts ""
   end
 
   def turn
@@ -92,9 +77,10 @@ class Game
       puts "==========Player Board=========="
       puts @player.board.render(true)
 
+      puts ""
       puts "Where would you like to fire upon?"
       print "> "
-      print ""
+
       player_shot = gets.chomp.upcase
       computer_shot = @computer.computer_shot
 
@@ -107,28 +93,55 @@ class Game
       @computer.board.cells[player_shot].fire_upon
       @player.board.cells[computer_shot].fire_upon
 
-      puts player_feedback(player_shot)
-      puts computer_feedback(computer_shot)
+      puts " "
+      player_feedback(player_shot)
+      computer_feedback(computer_shot)
 
     end
     puts "==========Computer Board=========="
-    puts @computer.board.render(true)
+    puts @computer.board.render
     puts "==========Player Board=========="
     puts @player.board.render(true)
   end
 
-  def results
-    if @computer.all_ships_sunk?
-      puts "You won!!"
-    elsif @player.all_ships_sunk?
-      puts "I won!!"
+  def player_feedback(player_shot)
+    if @computer.board.cells[player_shot].render == "X "
+      puts "You sunk my #{@computer.board.cells[player_shot].ship.name}!"
+    elsif @computer.board.cells[player_shot].render == "H "
+      puts "Your shot on #{player_shot} was a hit."
+    elsif @computer.board.cells[player_shot].render == "M "
+      puts "Your shot on #{player_shot} was a miss."
     end
   end
-  
+
+  def computer_feedback(computer_shot)
+    if @player.board.cells[computer_shot].render == "X "
+      puts "I sunk your #{@player.board.cells[computer_shot].ship.name}!\n\n"
+    elsif @player.board.cells[computer_shot].render == "H "
+      puts "My shot on #{computer_shot} was a hit.\n\n"
+    elsif @player.board.cells[computer_shot].render == "M "
+      puts "My shot on #{computer_shot} was a miss.\n\n"
+    end
+  end
+
+  def results
+    if @computer.all_ships_sunk?
+      puts ""
+      puts "You won!!"
+    elsif @player.all_ships_sunk?
+      puts ""
+      puts "I won!!"
+    end
+      puts ""
+  end
+
   def end_game
     puts "Press p to play again or q to quit"
     game_end = gets.chomp
     if game_end == "p"
+      @computer = Computer.new
+      @player = Player.new
+      puts ""
       start
     elsif game_end == "q"
       puts "Thanks for playing!!\nSee ya next time!!"

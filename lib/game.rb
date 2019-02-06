@@ -15,8 +15,8 @@ class Game
   def start
     welcome_screen
     setup
-    turn # shoot & feedback loop until ships sunk
-    #end_of_game
+    turn
+    results
   end
 
   def player_feedback(player_shot)
@@ -49,43 +49,40 @@ class Game
   def setup
     @computer.place_ships
     puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Submarine is two units long and the Cruiser is three units long."
-    puts @player.board.render
 
+    puts @player.board.render
     puts "Select coordinates for Submarine. (2 coordiantes)"
     print "> "
     coords = gets.chomp.upcase.split
-    while !@player.board.valid_placement?(@player.submarine, coords)
-      puts "Those are invalid coordiantes. Please try again:"
-      print "> "
-      coords = gets.chomp.upcase.split
-    end
-    @player.place_ship(@player.submarine, coords)
-    puts @player.board.render(true)
+
+      while !@player.board.valid_placement?(@player.submarine, coords)
+        puts "Those are invalid coordiantes. Please try again:"
+        print "> "
+        coords = gets.chomp.upcase.split
+      end
+        @player.place_ship(@player.submarine, coords)
+        puts @player.board.render(true)
 
     puts "Select coordinates for Cruiser. (3 coordiantes)"
     print "> "
     coords = gets.chomp.upcase.split
-    while !@player.board.valid_placement?(@player.cruiser, coords)
-      puts "Those are invalid coordiantes. Please try again:"
-      print "> "
-      coords = gets.chomp.upcase.split
-    end
-    @player.place_ship(@player.cruiser, coords)
-    puts @player.board.render(true)
-    puts "Ships have been placed.\nLets begin!"
-  end
+
+      while !@player.board.valid_placement?(@player.cruiser, coords)
+        puts "Those are invalid coordiantes. Please try again:"
+        print "> "
+        coords = gets.chomp.upcase.split
+      end
+        @player.place_ship(@player.cruiser, coords)
+        puts @player.board.render(true)
+        puts "Ships have been placed.\nLets begin!"
+      end
 
   def turn
-      #
-      # @computer.all_sunk?
-      # @player.all_sunk?
-
-    while !@computer.all_ships_sunk? || !@player.all_ships_sunk?
+    while !@computer.all_ships_sunk? && !@player.all_ships_sunk?
       puts "==========Computer Board=========="
       puts @computer.board.render
       puts "==========Player Board=========="
       puts @player.board.render(true)
-
 
       puts "Where would you like to fire upon?"
       print "> "
@@ -93,31 +90,31 @@ class Game
       player_shot = gets.chomp.upcase
       computer_shot = @computer.computer_shot
 
-      while !@player.valid_shot?(@computer.board.cells, player_shot)
-        puts "#{player_shot} is invlaid, or has already been fired upon:"
-        print "> "
-        player_shot = gets.chomp.upcase
-      end
+        while !@player.valid_shot?(@computer.board.cells, player_shot)
+          puts "#{player_shot} is invlaid, or has already been fired upon:"
+          print "> "
+          player_shot = gets.chomp.upcase
+        end
 
-        @computer.board.cells[player_shot].fire_upon
-        @player.board.cells[computer_shot].fire_upon
+          @computer.board.cells[player_shot].fire_upon
+          @player.board.cells[computer_shot].fire_upon
 
-        puts player_feedback(player_shot)
-        puts computer_feedback(computer_shot)
+          puts player_feedback(player_shot)
+          puts computer_feedback(computer_shot)
 
     end
-
-
-
-
-    #     puts "Where would you like to fire upon?"
-    #     gets.chomp
-    #     if @cell.render == 2
-    #     end
-    #   end
+        puts "==========Computer Board=========="
+        puts @computer.board.render(true)
+        puts "==========Player Board=========="
+        puts @player.board.render(true)
   end
-  # puts "Select valid cooridnates for Cruiser"
-  # gets.chomp # input should look like A1 A2 A3
-  # puts "Select valid cooridnates for Submarine"
-  # gets.chomp # input should look like C3 B3
+
+  def results
+    if @computer.all_ships_sunk?
+      puts "You won!"
+    elsif @player.all_ships_sunk?
+      puts "I won!"
+    end
+  end
+
 end

@@ -85,7 +85,7 @@ class Board
     @cells[cell].place_ship(ship)
   end
 
-#need to refactor
+  #need to refactor - use a case statement?
   def render(display = false)
     header_row = "  1 2 3 4 \n"
     row_a = "A " + render_each_cell("A1", display) + render_each_cell("A2", display) + render_each_cell("A3", display) + render_each_cell("A4", display)+"\n"

@@ -60,15 +60,15 @@ class RunnerTest < MiniTest::Test
     2.times { computer.cruiser.hit }
     1.times { computer.submarine.hit }
 
-    refute computer.all_ships_sunk?
+    assert_equal false, computer.all_ships_sunk?
 
     computer.cruiser.hit
 
-    refute computer.all_ships_sunk?
+    assert_equal false, computer.all_ships_sunk?
 
     computer.submarine.hit
 
-    assert computer.all_ships_sunk?
+    assert_equal true, computer.all_ships_sunk?
   end
 
 end

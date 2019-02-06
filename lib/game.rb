@@ -7,6 +7,7 @@ require 'pry'
 
 
 class Game
+
   def initialize
     @computer = Computer.new
     @player = Player.new
@@ -17,6 +18,7 @@ class Game
     setup
     turn
     results
+    end_game
   end
 
   def player_feedback(player_shot)
@@ -42,8 +44,14 @@ class Game
   def welcome_screen
     puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."
     print "> "
-    gets.chomp.downcase
-
+    game = gets.chomp.downcase
+    if game == "p"
+    elsif game == "q"
+      puts "See Ya!!"
+      exit
+    else game != "p" || "q"
+      welcome_screen
+    end
   end
 
   def setup
@@ -55,27 +63,27 @@ class Game
     print "> "
     coords = gets.chomp.upcase.split
 
-      while !@player.board.valid_placement?(@player.submarine, coords)
-        puts "Those are invalid coordiantes. Please try again:"
-        print "> "
-        coords = gets.chomp.upcase.split
-      end
-        @player.place_ship(@player.submarine, coords)
-        puts @player.board.render(true)
+    while !@player.board.valid_placement?(@player.submarine, coords)
+      puts "Those are invalid coordiantes. Please try again:"
+      print "> "
+      coords = gets.chomp.upcase.split
+    end
+    @player.place_ship(@player.submarine, coords)
+    puts @player.board.render(true)
 
     puts "Select coordinates for Cruiser. (3 coordiantes)"
     print "> "
     coords = gets.chomp.upcase.split
 
-      while !@player.board.valid_placement?(@player.cruiser, coords)
-        puts "Those are invalid coordiantes. Please try again:"
-        print "> "
-        coords = gets.chomp.upcase.split
-      end
-        @player.place_ship(@player.cruiser, coords)
-        puts @player.board.render(true)
-        puts "Ships have been placed.\nLets begin!"
-      end
+    while !@player.board.valid_placement?(@player.cruiser, coords)
+      puts "Those are invalid coordiantes. Please try again:"
+      print "> "
+      coords = gets.chomp.upcase.split
+    end
+    @player.place_ship(@player.cruiser, coords)
+    puts @player.board.render(true)
+    puts "Ships have been placed.\nLets begin!"
+  end
 
   def turn
     while !@computer.all_ships_sunk? && !@player.all_ships_sunk?
@@ -90,31 +98,43 @@ class Game
       player_shot = gets.chomp.upcase
       computer_shot = @computer.computer_shot
 
-        while !@player.valid_shot?(@computer.board.cells, player_shot)
-          puts "#{player_shot} is invlaid, or has already been fired upon:"
-          print "> "
-          player_shot = gets.chomp.upcase
-        end
+      while !@player.valid_shot?(@computer.board.cells, player_shot)
+        puts "#{player_shot} is invlaid, or has already been fired upon:"
+        print "> "
+        player_shot = gets.chomp.upcase
+      end
 
-          @computer.board.cells[player_shot].fire_upon
-          @player.board.cells[computer_shot].fire_upon
+      @computer.board.cells[player_shot].fire_upon
+      @player.board.cells[computer_shot].fire_upon
 
-          puts player_feedback(player_shot)
-          puts computer_feedback(computer_shot)
+      puts player_feedback(player_shot)
+      puts computer_feedback(computer_shot)
 
     end
-        puts "==========Computer Board=========="
-        puts @computer.board.render(true)
-        puts "==========Player Board=========="
-        puts @player.board.render(true)
+    puts "==========Computer Board=========="
+    puts @computer.board.render(true)
+    puts "==========Player Board=========="
+    puts @player.board.render(true)
   end
 
   def results
     if @computer.all_ships_sunk?
-      puts "You won!"
+      puts "You won!!"
     elsif @player.all_ships_sunk?
-      puts "I won!"
+      puts "I won!!"
     end
   end
-
+  
+  def end_game
+    puts "Press p to play again or q to quit"
+    game_end = gets.chomp
+    if game_end == "p"
+      start
+    elsif game_end == "q"
+      puts "Thanks for playing!!\nSee ya next time!!"
+      exit
+    else game_end != "p"||"q"
+      end_game
+    end
+  end
 end

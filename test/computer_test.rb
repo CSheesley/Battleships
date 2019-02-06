@@ -50,7 +50,7 @@ class RunnerTest < MiniTest::Test
 
   def test_it_runs_out_of_shot_options_after_16_shots
     computer = Computer.new
-    16.times { computer.shot_selection }
+    16.times { computer.computer_shot }
 
     assert_equal 0, computer.shot_options.count
   end

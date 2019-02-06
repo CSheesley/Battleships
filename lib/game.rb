@@ -21,28 +21,8 @@ class Game
     end_game
   end
 
-  def player_feedback(player_shot)
-    if @computer.board.cells[player_shot].render == "X "
-      "You sunk my #{@computer.board.cells[player_shot].ship.name}!"
-    elsif @computer.board.cells[player_shot].render == "H "
-      "Your shot on #{player_shot} was a hit."
-    elsif @computer.board.cells[player_shot].render == "M "
-      "Your shot on #{player_shot} was a miss"
-    end
-  end
-
-  def computer_feedback(computer_shot)
-    if @player.board.cells[computer_shot].render == "X "
-      "I sunk your #{@player.board.cells[computer_shot].ship.name}!\n"
-    elsif @player.board.cells[computer_shot].render == "H "
-      "My shot on #{computer_shot} was a hit.\n"
-    elsif @player.board.cells[computer_shot].render == "M "
-      "My shot on #{computer_shot} was a miss.\n"
-    end
-  end
-
   def welcome_screen
-    puts "Welcome to BATTLESHIP \nEnter p to play. Enter q to quit."
+    puts "Welcome to BATTLESHIP! \nEnter p to play. Enter q to quit."
     print "> "
     game = gets.chomp.downcase
     if game == "p"
@@ -88,7 +68,7 @@ class Game
   def turn
     while !@computer.all_ships_sunk? && !@player.all_ships_sunk?
       puts "==========Computer Board=========="
-      puts @computer.board.render
+      puts @computer.board.render(true)
       puts "==========Player Board=========="
       puts @player.board.render(true)
 
@@ -107,8 +87,8 @@ class Game
       @computer.board.cells[player_shot].fire_upon
       @player.board.cells[computer_shot].fire_upon
 
-      puts player_feedback(player_shot)
-      puts computer_feedback(computer_shot)
+      player_feedback(player_shot)
+      computer_feedback(computer_shot)
 
     end
     puts "==========Computer Board=========="
@@ -117,18 +97,42 @@ class Game
     puts @player.board.render(true)
   end
 
+    def player_feedback(player_shot)
+      if @computer.board.cells[player_shot].render == "X "
+        puts "You sunk my #{@computer.board.cells[player_shot].ship.name}!"
+      elsif @computer.board.cells[player_shot].render == "H "
+        puts "Your shot on #{player_shot} was a hit."
+      elsif @computer.board.cells[player_shot].render == "M "
+        puts "Your shot on #{player_shot} was a miss"
+      end
+    end
+
+    def computer_feedback(computer_shot)
+      if @player.board.cells[computer_shot].render == "X "
+        puts "I sunk your #{@player.board.cells[computer_shot].ship.name}!\n"
+      elsif @player.board.cells[computer_shot].render == "H "
+        puts "My shot on #{computer_shot} was a hit.\n"
+      elsif @player.board.cells[computer_shot].render == "M "
+        puts "My shot on #{computer_shot} was a miss.\n"
+      end
+       ""
+    end
+
   def results
     if @computer.all_ships_sunk?
       puts "You won!!"
     elsif @player.all_ships_sunk?
       puts "I won!!"
     end
+      puts ""
   end
-  
+
   def end_game
     puts "Press p to play again or q to quit"
     game_end = gets.chomp
     if game_end == "p"
+      @computer = Computer.new
+      @player = Player.new
       start
     elsif game_end == "q"
       puts "Thanks for playing!!\nSee ya next time!!"

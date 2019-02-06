@@ -3,13 +3,13 @@ This checklist summarizes all of the functionality you are expected to build. Th
 
 Main Menu:
 
-(NEEDS FUNCTIONALITY) User is show the main menu where they can play or quit
+Y User is shown the main menu where they can play or quit
 
 Setup:
 
 Y Computer can place ships randomly in valid locations
 Y User can enter valid sequences to place both ships
-Y  Entering invalid ship placements prompts user to enter valid placements
+Y Entering invalid ship placements prompts user to enter valid placements
 
 Turn:
 
@@ -28,4 +28,4 @@ End Game:
 Y Game ends when all the user’s ships are sunk
 Y Game ends when all the computer’s ships are sunk
 Y Game reports who won
-  Game returns user back to the Main Menu
+Y Game returns user back to the Main Menu

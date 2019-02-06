@@ -27,10 +27,10 @@ class CellTest < Minitest::Test
   def test_to_see_if_cell_is_empty
     cell = Cell.new("B4")
 
-    assert cell.empty?
+    assert_equal true, cell.empty?
   end
 
-  def test_to_see_if_ship_can_be_placed_in_a_cell
+  def test_to_see_if_ship_can_be_placed_on_a_cell
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
@@ -43,40 +43,33 @@ class CellTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
 
-    refute cell.empty?
+    assert_equal false, cell.empty?
   end
 
-  def test_to_see_if_cell_has_been_fired_upon
+  def test_to_see_if_cell_has_been_fired_upon_before_fired_upon
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
 
-    refute cell.fired_upon?
+    assert_equal false, cell.fired_upon?
   end
 
-  def test_to_check_cell_is_fired_upon
+  def test_to_check_cell_is_fired_upon_after_fired_upon
     cell = Cell.new("B4")
     cruiser = Ship.new("Cruiser", 3)
     cell.place_ship(cruiser)
     cell.fire_upon
 
-    assert cell.fired_upon?
+    assert_equal true, cell.fired_upon?
   end
-  # 
-  # def test_to_check_result_of_firing_upon_an_empty_cell
-  #   cell = Cell.new("B4")
-  #   cruiser = Ship.new("Cruiser", 3)
-  #
-  #   assert_equal "Miss", cell.fire_upon
-  # end
-  #
-  # def test_outcome_of_firing_upon_an_occupied_cell_and_its_result
-  #   cell = Cell.new("B4")
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   cell.place_ship(cruiser)
-  #
-  #   assert_equal "Hit!", cell.fire_upon
-  #   assert_equal 2, cell.ship.health
+
+  def test_outcome_of_firing_upon_an_occupied_cell_and_ship_health_impact
+    cell = Cell.new("B4")
+    cruiser = Ship.new("Cruiser", 3)
+    cell.place_ship(cruiser)
+    cell.fire_upon
+
+    assert_equal 2, cell.ship.health
   end
 
   def test_to_see_if_cells_blank_cells_are_properly_rendered

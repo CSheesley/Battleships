@@ -28,31 +28,31 @@ class BoardTest < Minitest::Test
   def test_to_verify_that_the_coordinate_is_on_the_board
     board = Board.new
 
-    assert board.valid_coordinate?("A1")
-    assert board.valid_coordinate?("D2")
+    assert_equal true, board.valid_coordinate?("A1")
+    assert_equal true, board.valid_coordinate?("D2")
 
-    refute board.valid_coordinate?("G50")
-    refute board.valid_coordinate?("A5")
+    assert_equal false, board.valid_coordinate?("G50")
+    assert_equal false, board.valid_coordinate?("A5")
   end
 
   def test_that_each_coordinate_of_placement_is_valid
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
 
-    refute board.each_coordinate_valid?(cruiser, ["D4", "D5"])
-    assert board.each_coordinate_valid?(cruiser, ["A2","B2"])
+    assert_equal false, board.each_coordinate_valid?(cruiser, ["D4", "D5"])
+    assert_equal true, board.each_coordinate_valid?(cruiser, ["A2","B2"])
   end
 
   def test_that_ship_length_equals_coord_length
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
-  
-    refute board.ship_length_equals_coord_length?(cruiser,["A1","A2"])
-    refute board.ship_length_equals_coord_length?(submarine,["A1","A2","A3"])
 
-    assert board.ship_length_equals_coord_length?(cruiser,["C1","C2","C3"])
-    assert board.ship_length_equals_coord_length?(submarine,["C1","C2"])
+    assert_equal false, board.ship_length_equals_coord_length?(cruiser,["A1","A2"])
+    assert_equal false, board.ship_length_equals_coord_length?(submarine,["A1","A2","A3"])
+
+    assert_equal true, board.ship_length_equals_coord_length?(cruiser,["C1","C2","C3"])
+    assert_equal true, board.ship_length_equals_coord_length?(submarine,["C1","C2"])
   end
 
   def test_that_placement_is_valid
@@ -60,13 +60,13 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-    refute board.valid_placement?(cruiser, ["A1", "B2", "C3"])
-    refute board.valid_placement?(cruiser, ["G1", "G2", "G3"])
-    assert board.valid_placement?(cruiser, ["A1", "B1", "C1"])
-    assert board.valid_placement?(cruiser, ["A1", "A2", "A3"])
+    assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "C3"])
+    assert_equal false, board.valid_placement?(cruiser, ["G1", "G2", "G3"])
+    assert_equal true, board.valid_placement?(cruiser, ["A1", "B1", "C1"])
+    assert_equal true, board.valid_placement?(cruiser, ["A1", "A2", "A3"])
 
-    refute board.valid_placement?(submarine, ["B1", "C2"])
-    assert board.valid_placement?(submarine, ["D1", "D2"])
+    assert_equal false, board.valid_placement?(submarine, ["B1", "C2"])
+    assert_equal true, board.valid_placement?(submarine, ["D1", "D2"])
   end
 
   def test_that_a_ship_has_been_placed_on_a_cell
@@ -85,7 +85,7 @@ class BoardTest < Minitest::Test
     assert_equal cruiser, board.cells["A1"].ship
     assert_equal cruiser, board.cells["A2"].ship
     assert_equal cruiser, board.cells["A3"].ship
-    assert board.cells["A1"].ship == board.cells["A2"].ship
+    assert_equal true, board.cells["A1"].ship == board.cells["A2"].ship
   end
 
   def test_to_make_sure_coordinates_are_consecutive
@@ -93,8 +93,8 @@ class BoardTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
 
-    assert board.consecutive_coordinates?(cruiser, ["A1", "A2", "A3"])
-    refute board.consecutive_coordinates?(submarine, ["A1", "A3"])
+    assert_equal true, board.consecutive_coordinates?(cruiser, ["A1", "A2", "A3"])
+    assert_equal false, board.consecutive_coordinates?(submarine, ["A1", "A3"])
   end
 
   def test_to_make_sure_that_ships_cannot_overlap
@@ -103,8 +103,8 @@ class BoardTest < Minitest::Test
     board.place(cruiser, ["A1", "A2", "A3"])
     submarine = Ship.new("Submarine", 2)
 
-    refute board.valid_placement?(submarine, ["A1", "B1"])
-    assert board.valid_placement?(submarine, ["B1", "B2"])
+    assert_equal false, board.valid_placement?(submarine, ["A1", "B1"])
+    assert_equal true, board.valid_placement?(submarine, ["B1", "B2"])
   end
 
   def test_that_the_board_can_render_clean_at_beginning_of_game
@@ -133,7 +133,6 @@ class BoardTest < Minitest::Test
 
     expected = "  1 2 3 4 \nA X X X . \nB . . . . \nC . . . . \nD . . . . \n"
 
-    assert_equal expected, board.render
     assert_equal expected, board.render(true)
   end
 

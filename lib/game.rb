@@ -85,7 +85,7 @@ class Game
       computer_shot = @computer.computer_shot
 
       while !@player.valid_shot?(@computer.board.cells, player_shot)
-        puts "#{player_shot} is invlaid, or has already been fired upon:"
+        puts "#{player_shot} is invalid, or has already been fired upon:"
         print "> "
         player_shot = gets.chomp.upcase
       end
@@ -127,10 +127,10 @@ class Game
   def results
     if @computer.all_ships_sunk?
       puts ""
-      puts "You won!!"
+      puts "You won!"
     elsif @player.all_ships_sunk?
       puts ""
-      puts "I won!!"
+      puts "I won!"
     end
       puts ""
   end

@@ -29,7 +29,7 @@ class Computer
     @coordinates = random_coords(ship.length)
     while !@board.valid_placement?(ship, @coordinates)
       @coordinates = random_coords(ship.length)
-      end
+    end
     return @coordinates
   end
 

@@ -23,23 +23,23 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    each_coordinate_valid?(ship, coordinates) &&
+    each_coordinate_valid?(coordinates) &&
     ship_length_equals_coord_length?(ship, coordinates) &&
     consecutive_coordinates?(ship, coordinates) &&
-    no_overlap(ship, coordinates)
+    no_overlap?(ship, coordinates)
   end
 
   def valid_coordinate?(coordinate)
     @cells.has_key?(coordinate)
   end
 
-  def each_coordinate_valid?(ship, coordinates)
+  def each_coordinate_valid?(coordinates)
     coordinates.all? do |coordinate|
       valid_coordinate?(coordinate)
     end
   end
 
-  def ship_length_equals_coord_length?(ship, coordinates) #more readable - previously if/else w/ !
+  def ship_length_equals_coord_length?(ship, coordinates)
     ship.length == coordinates.length
   end
 
@@ -54,7 +54,7 @@ class Board
     valid_columns = []
     ("1".."4").to_a.each_cons(ship.length) { |columns| valid_columns << columns }
     valid_rows =[]
-    ("A".."D").to_a.each_cons(ship.length) { |rows| valid_rows << rows}
+    ("A".."D").to_a.each_cons(ship.length) { |rows| valid_rows << rows }
 
     if rows.uniq.length == 1 && valid_columns.include?(columns)
       true
@@ -65,14 +65,14 @@ class Board
     end
   end
 
-  def no_overlap(ship, coordinates)
+  def no_overlap?(ship, coordinates)
     coordinates.none? do |coord|
       overlap?(coord)
     end
   end
 
   def overlap?(coordinate)
-    @cells[coordinate].ship != nil
+    !@cells[coordinate].empty?
   end
 
   def place(ship, coordinates)

@@ -37,10 +37,10 @@ class BoardTest < Minitest::Test
 
   def test_that_each_coordinate_of_placement_is_valid
     board = Board.new
-    cruiser = Ship.new("Cruiser", 3)
 
-    assert_equal false, board.each_coordinate_valid?(cruiser, ["D4", "D5"])
-    assert_equal true, board.each_coordinate_valid?(cruiser, ["A2","B2"])
+    assert_equal false, board.each_coordinate_valid?(["D4", "D5"])
+    assert_equal true, board.each_coordinate_valid?(["A2","B2"])
+
   end
 
   def test_that_ship_length_equals_coord_length
